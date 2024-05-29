@@ -1,0 +1,4 @@
+better_profanity==0.7.0
+moviepy==1.0.3
+openai_whisper==20231117
+whisper==1.1.10
