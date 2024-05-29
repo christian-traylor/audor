@@ -1,2 +1,2 @@
 # audor
-Assisted audio censoring tool to make YouTube editor's lives easier
+Assisted audio censoring tool, designed to make video editor lives easier
