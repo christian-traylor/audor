@@ -2,6 +2,8 @@ import moviepy.editor as mp
 import whisper
 from better_profanity import profanity
 import os
+import sys
+import json
 
 
 def convert_seconds_to_minutes_seconds(seconds):
@@ -36,14 +38,21 @@ def main(video_path):
     extract_audio_from_video(video_path, audio_path)
     transcription_result = transcribe_audio(audio_path)
     swear_word_timestamps = scan_for_swear_words(transcription_result)
-
-    print("Swear words found at the following timestamps:")
+    swear_words = [] # [{f"{item['start']:02d}:": f"item['text']"} for item in swear_word_timestamps]
     for item in swear_word_timestamps:
         minutes, seconds = convert_seconds_to_minutes_seconds(item['start'])
-        print(f"Time: {minutes:02d}:{seconds:02d}, Text: {item['text']}")
-
+        converted_time = f"{minutes:02d}:{seconds:02d}"
+        swear_words.append({converted_time: item['text']}) 
+    with open('swear_words.json', 'w') as f:
+        json.dump(swear_words, f, indent=4)
+    # for item in swear_word_timestamps:
+    #     minutes, seconds = convert_seconds_to_minutes_seconds(item['start'])
+    #     print(f"Time: {minutes:02d}:{seconds:02d}, Text: {item['text']}")
     os.remove(audio_path)
 
 if __name__ == "__main__":
-    video_path = "sample_files/swear_words.mp4"
+    if len(sys.argv) != 2:
+        print("Usage: python3 detect.py <file_path>")
+        sys.exit(1)
+    video_path = sys.argv[1]
     main(video_path)
