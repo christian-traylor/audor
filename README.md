@@ -1,7 +1,7 @@
 # audor
 
 ## Description
-Assisted audio censoring tool, designed to make video editor lives easier
+Assisted audio censoring tool, designed to make censoring audio for podcasts, videos, etc easier.
 
 ## Table of Contents
 - [Installation](#installation)
