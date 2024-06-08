@@ -38,17 +38,18 @@ def main(video_path):
     extract_audio_from_video(video_path, audio_path)
     transcription_result = transcribe_audio(audio_path)
     swear_word_timestamps = scan_for_swear_words(transcription_result)
-    swear_words = [] # [{f"{item['start']:02d}:": f"item['text']"} for item in swear_word_timestamps]
+
+    swear_words = []
     for item in swear_word_timestamps:
         minutes, seconds = convert_seconds_to_minutes_seconds(item['start'])
         converted_time = f"{minutes:02d}:{seconds:02d}"
         swear_words.append({converted_time: item['text']}) 
+
     with open('swear_words.json', 'w') as f:
         json.dump(swear_words, f, indent=4)
-    # for item in swear_word_timestamps:
-    #     minutes, seconds = convert_seconds_to_minutes_seconds(item['start'])
-    #     print(f"Time: {minutes:02d}:{seconds:02d}, Text: {item['text']}")
+
     os.remove(audio_path)
+    sys.exit(0)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
