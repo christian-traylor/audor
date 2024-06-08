@@ -6,12 +6,6 @@ Assisted audio censoring tool, designed to make video editor lives easier
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [License](#license)
-- [Authors and Acknowledgments](#authors-and-acknowledgments)
-- [Project Status](#project-status)
-- [Contact Information](#contact-information)
 
 ## Installation
 Step-by-step instructions on how to install and set up the project.
@@ -30,3 +24,4 @@ Linux: Ensure gtk+-3.0 development libraries are installed via your package mana
 macOS: Install gtk+3 using Homebrew.
 Windows: Install GTK+ 3.0 development libraries using MSYS2.
 
+## Usage
