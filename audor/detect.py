@@ -49,7 +49,6 @@ def main(video_path):
         json.dump(swear_words, f, indent=4)
 
     os.remove(audio_path)
-    sys.exit(0)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
