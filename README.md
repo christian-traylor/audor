@@ -17,22 +17,15 @@ git clone https://github.com/christian-traylor/audor
 # Install dependencies for Python
 pip install -r requirements.txt
 
-# Install GTK+ 3.0
- Please ensure that you have GTK+ 3.0 development libraries installed on your system.
-
-Linux: Ensure gtk+-3.0 development libraries are installed via your package manager.
-macOS: Install gtk+3 using Homebrew.
-Windows: Install GTK+ 3.0 development libraries using MSYS2.
-
 ```
 
 ## Usage
-Compile the program:
-```bash
-gcc -o gui gui.c `pkg-config --cflags --libs gtk+-3.0`
-```
 Run the program:
 ```bash
-./gui
+# Run gui_main.py in audor/audor
+./gui_main.py
 ```
-Select an audio or video file using the GUI. A .json file will be created with the timestamps of profanity.
+Select a video file using the GUI. Next, select the model size (small, medium, or large). 
+Run times are lower on smaller models, but their accuracy is worse.
+
+A .json file will be created with the timestamps of profanity.
