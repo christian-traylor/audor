@@ -25,6 +25,7 @@ Run the program:
 # Run gui_main.py in audor/audor
 ./gui_main.py
 ```
-Select a video file using the GUI. Next, select the model size (small, medium, or large). Run times are lower on smaller models, but their accuracy is worse.
+Select a video file using the GUI. Next, select the model size (small, medium, or large). 
+Run times are lower on smaller models, but their accuracy is worse.
 
 A .json file will be created with the timestamps of profanity.
