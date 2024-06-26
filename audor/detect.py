@@ -4,6 +4,21 @@ from better_profanity import profanity
 import os
 import sys
 import json
+import re
+
+video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', 'webm']
+audio_extensions = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a']
+file_type_regex = re.compile(r'.*\.(?P<extension>[a-zA-Z0-9]+)$')
+
+def is_video(filename):
+    match = file_type_regex.match(filename)
+    if match:
+        extension = match.group('extension').lower()
+        if extension in video_extensions:
+            return True
+        elif extension in audio_extensions:
+            return False
+    raise ValueError("File selected does not have a valid audio or video file type. ")
 
 def convert_seconds_to_minutes_and_seconds(seconds):
     minutes = int(seconds // 60)
@@ -45,19 +60,20 @@ def dump_timestamps(swear_word_timestamps):
     
     return filename
 
-def main(video_path, selected_model):
-    audio_path = "extracted_audio.wav"
-    extract_audio_from_video(video_path, audio_path)
+def main(video_or_audio_path, selected_model):
+    is_video_file = is_video(video_or_audio_path)
+    audio_path = "extracted_audio.wav" if is_video_file else video_or_audio_path
+    if is_video_file:
+        extract_audio_from_video(video_or_audio_path, audio_path)
     transcription_result = transcribe_audio(audio_path, model_type=selected_model)
     swear_word_timestamps = scan_for_swear_words(transcription_result)
     json_file = dump_timestamps(swear_word_timestamps)
 
-    os.remove(audio_path)
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python3 detect.py <file_path> <model_type>")
         sys.exit(1)
-    video_path = sys.argv[1]
+    video_or_audio_path = sys.argv[1]
     selected_model = sys.argv[2]
-    main(video_path, selected_model)
+    main(video_or_audio_path, selected_model)
