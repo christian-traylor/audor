@@ -5,7 +5,7 @@ import os
 import sys
 import json
 
-def convert_seconds_to_minutes_seconds(seconds):
+def convert_seconds_to_minutes_and_seconds(seconds):
     minutes = int(seconds // 60)
     seconds = int(seconds % 60)
     return minutes, seconds
@@ -33,22 +33,25 @@ def scan_for_swear_words(transcription_result):
     return swear_word_timestamps
 
 def dump_timestamps(swear_word_timestamps):
+    filename = 'swear_words.json'
     swear_words = []
     for item in swear_word_timestamps:
-        minutes, seconds = convert_seconds_to_minutes_seconds(item['start'])
+        minutes, seconds = convert_seconds_to_minutes_and_seconds(item['start'])
         converted_time = f"{minutes:02d}:{seconds:02d}"
         swear_words.append({converted_time: item['text']}) 
 
-    with open('swear_words.json', 'w') as f:
+    with open(filename, 'w') as f:
         json.dump(swear_words, f, indent=4)
+    
+    return filename
 
 def main(video_path, selected_model):
     audio_path = "extracted_audio.wav"
     extract_audio_from_video(video_path, audio_path)
     transcription_result = transcribe_audio(audio_path, model_type=selected_model)
     swear_word_timestamps = scan_for_swear_words(transcription_result)
-    dump_timestamps(swear_word_timestamps)
-    
+    json_file = dump_timestamps(swear_word_timestamps)
+
     os.remove(audio_path)
 
 if __name__ == "__main__":
