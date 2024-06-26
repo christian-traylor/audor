@@ -5,8 +5,8 @@ import sys
 import json
 import re
 
-video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', 'webm']
-audio_extensions = ['mp3', 'wav', 'aac', 'flac', 'ogg', 'wma', 'm4a']
+video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', '.ogv']
+audio_extensions = ['mp3', 'wav', 'flac']
 file_type_regex = re.compile(r'.*\.(?P<extension>[a-zA-Z0-9]+)$')
 
 def is_video(filename):
