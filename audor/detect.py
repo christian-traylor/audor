@@ -32,12 +32,7 @@ def scan_for_swear_words(transcription_result):
             })
     return swear_word_timestamps
 
-def main(video_path, selected_model):
-    audio_path = "extracted_audio.wav"
-    extract_audio_from_video(video_path, audio_path)
-    transcription_result = transcribe_audio(audio_path, model_type=selected_model)
-    swear_word_timestamps = scan_for_swear_words(transcription_result)
-
+def dump_timestamps(swear_word_timestamps):
     swear_words = []
     for item in swear_word_timestamps:
         minutes, seconds = convert_seconds_to_minutes_seconds(item['start'])
@@ -47,6 +42,13 @@ def main(video_path, selected_model):
     with open('swear_words.json', 'w') as f:
         json.dump(swear_words, f, indent=4)
 
+def main(video_path, selected_model):
+    audio_path = "extracted_audio.wav"
+    extract_audio_from_video(video_path, audio_path)
+    transcription_result = transcribe_audio(audio_path, model_type=selected_model)
+    swear_word_timestamps = scan_for_swear_words(transcription_result)
+    dump_timestamps(swear_word_timestamps)
+    
     os.remove(audio_path)
 
 if __name__ == "__main__":
