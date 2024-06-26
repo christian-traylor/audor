@@ -1,7 +1,6 @@
 import moviepy.editor as mp
 import whisper
 from better_profanity import profanity
-import os
 import sys
 import json
 import re
@@ -57,8 +56,7 @@ def dump_timestamps(swear_word_timestamps):
 
     with open(filename, 'w') as f:
         json.dump(swear_words, f, indent=4)
-    
-    return filename
+
 
 def main(video_or_audio_path, selected_model):
     is_video_file = is_video(video_or_audio_path)
@@ -67,7 +65,7 @@ def main(video_or_audio_path, selected_model):
         extract_audio_from_video(video_or_audio_path, audio_path)
     transcription_result = transcribe_audio(audio_path, model_type=selected_model)
     swear_word_timestamps = scan_for_swear_words(transcription_result)
-    json_file = dump_timestamps(swear_word_timestamps)
+    dump_timestamps(swear_word_timestamps)
 
 
 if __name__ == "__main__":
