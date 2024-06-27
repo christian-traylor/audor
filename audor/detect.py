@@ -4,6 +4,8 @@ from better_profanity import profanity
 import sys
 import json
 import re
+from censor import censor_audio
+import torch
 
 video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', '.ogv']
 audio_extensions = ['mp3', 'wav', 'flac']
@@ -28,23 +30,28 @@ def extract_audio_from_video(video_path, output_audio_path):
     video = mp.VideoFileClip(video_path)
     video.audio.write_audiofile(output_audio_path)
 
-def transcribe_audio(audio_path, model_type="small"):
-    model = whisper.load_model(model_type)
-    result = model.transcribe(audio_path)
+def transcribe_audio(audio_path, model_type):
+    model = whisper.load_model(model_type, device="cuda" if torch.cuda.is_available() else "cpu")
+    result = model.transcribe(audio_path, word_timestamps=True)
     return result
 
 def scan_for_swear_words(transcription_result):
     segments = transcription_result['segments']
     swear_word_timestamps = []
+    time_range = []
     for segment in segments:
-        text = segment['text']
-        start_time = segment['start']
-        if profanity.contains_profanity(text):
-            swear_word_timestamps.append({
-                'start': start_time,
-                'text': text
-            })
-    return swear_word_timestamps
+        for word in segment["words"]:
+            text = word['word']
+            start_time = word['start']
+            end_time = word['end']
+            if profanity.contains_profanity(text):
+                time_range.append(start_time)
+                time_range.append(end_time)
+                swear_word_timestamps.append({
+                    'start': start_time,
+                    'text': text
+                })
+    return swear_word_timestamps, time_range
 
 def dump_timestamps(swear_word_timestamps):
     filename = 'swear_words.json'
@@ -63,15 +70,19 @@ def main(video_or_audio_path, selected_model):
     audio_path = "extracted_audio.wav" if is_video_file else video_or_audio_path
     if is_video_file:
         extract_audio_from_video(video_or_audio_path, audio_path)
-    transcription_result = transcribe_audio(audio_path, model_type=selected_model)
-    swear_word_timestamps = scan_for_swear_words(transcription_result)
+    transcription_result = transcribe_audio(audio_path, selected_model)
+    swear_word_timestamps, time_range = scan_for_swear_words(transcription_result)
     dump_timestamps(swear_word_timestamps)
-
+    
+    result = censor_audio(audio_path, time_range)
+    
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python3 detect.py <file_path> <model_type>")
         sys.exit(1)
+
     video_or_audio_path = sys.argv[1]
     selected_model = sys.argv[2]
+
     main(video_or_audio_path, selected_model)
