@@ -54,7 +54,6 @@ def scan_for_swear_words(transcription_result):
                         'text': segment
                     })
                     segment_included = True
-                    
     return swear_word_timestamps, time_range
 
 def dump_timestamps(swear_word_timestamps):
