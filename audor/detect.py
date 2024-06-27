@@ -51,7 +51,7 @@ def scan_for_swear_words(transcription_result):
                 if not segment_included:
                     swear_word_timestamps.append({
                         'start': start_time,
-                        'text': segment
+                        'text': segment['text']
                     })
                     segment_included = True
     return swear_word_timestamps, time_range
