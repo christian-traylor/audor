@@ -40,6 +40,7 @@ def scan_for_swear_words(transcription_result):
     swear_word_timestamps = []
     time_range = []
     for segment in segments:
+        segment_included = False
         for word in segment["words"]:
             text = word['word']
             start_time = word['start']
@@ -47,10 +48,13 @@ def scan_for_swear_words(transcription_result):
             if profanity.contains_profanity(text):
                 time_range.append(start_time)
                 time_range.append(end_time)
-                swear_word_timestamps.append({
-                    'start': start_time,
-                    'text': text
-                })
+                if not segment_included:
+                    swear_word_timestamps.append({
+                        'start': start_time,
+                        'text': segment
+                    })
+                    segment_included = True
+                    
     return swear_word_timestamps, time_range
 
 def dump_timestamps(swear_word_timestamps):
