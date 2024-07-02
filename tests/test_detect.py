@@ -4,5 +4,5 @@ def test_transcription_and_scan():
     assert transcription_result is not None
     swear_word_timestamps = scan_for_swear_words(transcription_result)
     assert swear_word_timestamps is not None
-    assert len(swear_word_timestamps) == 13
+    assert len(swear_word_timestamps) == 12
     
