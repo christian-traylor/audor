@@ -17,7 +17,7 @@ git clone https://github.com/christian-traylor/audor
 # Install dependencies for Python
 pip install -r requirements.txt
 
-# Compile the C file
+# Compile the C file in audor/audor
 On Linux: gcc -shared -o censor_audio.so -fPIC censor_audio.c
 On Windows: gcc -shared -o censor_audio.dll censor_audio.c
 On Mac: gcc -shared -o censor_audio.dylib -fPIC censor_audio.c
