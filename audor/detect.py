@@ -4,8 +4,9 @@ from better_profanity import profanity
 import sys
 import json
 import re
-from censor import censor_audio
 import torch
+import wave
+from censor import censor_audio
 
 video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', '.ogv']
 audio_extensions = ['mp3', 'wav', 'flac']
@@ -67,6 +68,20 @@ def dump_timestamps(swear_word_timestamps):
     with open(filename, 'w') as f:
         json.dump(swear_words, f, indent=4)
 
+def create_blank_wav_file():
+    n_channels = 1        # mono
+    sampwidth = 2         # sample width in bytes
+    framerate = 44100     # frame rate (samples per second)
+    n_frames = 0          # number of frames (0 for an empty file)
+
+    # Create an empty WAV file  
+    output_file = 'censored_audio.wav'
+    with wave.open(output_file, 'w') as wav_file:
+        wav_file.setnchannels(n_channels)
+        wav_file.setsampwidth(sampwidth)
+        wav_file.setframerate(framerate)
+        wav_file.setnframes(n_frames)
+
 
 def main(video_or_audio_path, selected_model):
     is_video_file = is_video(video_or_audio_path)
@@ -77,10 +92,13 @@ def main(video_or_audio_path, selected_model):
     swear_word_timestamps, time_range = scan_for_swear_words(transcription_result)
     dump_timestamps(swear_word_timestamps)
     
+    create_blank_wav_file()
+
     result = censor_audio(audio_path, time_range)
     
 
 if __name__ == "__main__":
+    create_blank_wav_file()
     if len(sys.argv) != 3:
         print("Usage: python3 detect.py <file_path> <model_type>")
         sys.exit(1)

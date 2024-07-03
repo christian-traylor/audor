@@ -17,6 +17,11 @@ git clone https://github.com/christian-traylor/audor
 # Install dependencies for Python
 pip install -r requirements.txt
 
+# Compile the C file
+On Linux: gcc -shared -o censor.so -fPIC censor.c
+On Windows: gcc -shared -o censor.dll censor.c
+On Mac: gcc -shared -o censor.dylib -fPIC censor.c
+
 ```
 
 ## Usage
