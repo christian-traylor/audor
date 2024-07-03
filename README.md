@@ -18,9 +18,9 @@ git clone https://github.com/christian-traylor/audor
 pip install -r requirements.txt
 
 # Compile the C file
-On Linux: gcc -shared -o censor.so -fPIC censor.c
-On Windows: gcc -shared -o censor.dll censor.c
-On Mac: gcc -shared -o censor.dylib -fPIC censor.c
+On Linux: gcc -shared -o censor_audio.so -fPIC censor_audio.c
+On Windows: gcc -shared -o censor_audio.dll censor_audio.c
+On Mac: gcc -shared -o censor_audio.dylib -fPIC censor_audio.c
 
 ```
 
