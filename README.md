@@ -4,8 +4,17 @@
 Assisted audio censoring tool, designed to make censoring audio for podcasts, videos, etc easier.
 
 ## Table of Contents
+- [System Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+
+## Requirements
+[OpenAI Whisper](https://github.com/openai/whisper#setup) should be installed. For Whisper, ffmpeg is required and sometimes a Rust install is required.
+
+System requirements:
+For system capabilities, a minimum of 2GB of VRAM is required. As always, a more powerful computer will enhance your experience significantly. Substantial improvements to performance can be seen with GPU acceleration.
+
+
 
 ## Installation
 Step-by-step instructions on how to install and set up the project.
