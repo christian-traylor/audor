@@ -9,7 +9,7 @@ import wave
 from censor import censor_audio
 
 video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', '.ogv']
-audio_extensions = ['mp3', 'wav', 'flac']
+audio_extensions = ['wav']
 file_type_regex = re.compile(r'.*\.(?P<extension>[a-zA-Z0-9]+)$')
 
 def is_video(filename):
