@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SAMPLE_RATE 44100 // Example sample rate (44.1kHz)
-#define BITS_PER_SAMPLE 16 // Example bit depth (16 bits)
+// Below is for .wav files, future implementations will include more support
+#define SAMPLE_RATE 44100
+#define BITS_PER_SAMPLE 16 
 #define CHANNELS 1 // Mono audio
 
 void remove_audio_segment(FILE *input_file, FILE *output_file, double start_time, double end_time) {
@@ -13,7 +14,6 @@ void remove_audio_segment(FILE *input_file, FILE *output_file, double start_time
     long start_frame = (long)(start_time * SAMPLE_RATE);
     long end_frame = (long)(end_time * SAMPLE_RATE);
 
-    // Buffer to hold data
     unsigned char buffer[1024];
     long frame_count = 0;
 
